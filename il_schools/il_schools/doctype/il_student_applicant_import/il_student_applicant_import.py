@@ -14,6 +14,7 @@ from frappe.utils import cint, cstr, flt, getdate, get_datetime, formatdate
 from frappe.utils import get_site_name, get_site_path, get_site_base_path, get_path
 
 import csv
+from frappe.utils.csvutils import read_csv_content
 
 class ILStudentApplicantImport(Document):
 	def import_sa_file(self):
@@ -33,8 +34,12 @@ class ILStudentApplicantImport(Document):
 					["Pays",""],["Téléphone",""],["Téléphone portable",""]]
 
 		file_path = os.getcwd()+get_site_path()[1:].encode('utf8') + self.import_file
-		wb = load_workbook(filename=file_path, read_only=True)
-		ws = wb.active
+
+		with open(file_path, 'r') as csvfile:
+			content = read_csv_content(csvfile.read())
+
+#		wb = load_workbook(filename=file_path, read_only=True)
+#		ws = wb.active
 
 		start = 2
 		for i, row in enumerate(ws.iter_rows(min_row=start)):
