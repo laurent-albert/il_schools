@@ -15,7 +15,7 @@ from frappe.utils import get_site_name, get_site_path, get_site_base_path, get_p
 
 import csv
 
-class il_student_applicant_import(Document):
+class ILStudentApplicantImport(Document):
 	def import_sa_file(self):
 		'''
 			Trigger on import button
