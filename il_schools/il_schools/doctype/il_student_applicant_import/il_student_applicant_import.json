@@ -8,7 +8,7 @@
  "custom": 0, 
  "docstatus": 0, 
  "doctype": "DocType", 
- "document_type": "", 
+ "document_type": "Document", 
  "editable_grid": 1, 
  "engine": "InnoDB", 
  "fields": [
@@ -82,10 +82,10 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-03-21 08:15:21.874537", 
+ "modified": "2017-03-21 17:25:46.858180", 
  "modified_by": "Administrator", 
  "module": "IL_Schools", 
- "name": "il_student_applicant_import", 
+ "name": "IL Student Applicant Import", 
  "name_case": "", 
  "owner": "Administrator", 
  "permissions": [

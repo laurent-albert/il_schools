@@ -42,7 +42,7 @@ class il_student_applicant_import(Document):
 			try:
 				error = False
 #				program_doc = frappe.get_doc("Program", "BTSESF1)
-				new_doc = frappe.new_doc("Student Applicant")
+				new_doc = frappe.new_doc("IL Student Applicant")
 				new_doc.program = "BTS Économie Sociale Familiale"
 				for j, cell in enumerate(row):
 					if j < 21 and columName[j][1] <> "":
