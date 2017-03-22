@@ -41,6 +41,7 @@ class ILStudentApplicantImport(Document):
 #		wb = load_workbook(filename=file_path, read_only=True)
 #		ws = wb.active
 
+		header = content[0][0].split(";")
 		start = 2
 		for i, row in enumerate(ws.iter_rows(min_row=start)):
 
