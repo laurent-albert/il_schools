@@ -12,7 +12,7 @@ from frappe.model.document import Document
 from frappe.utils.dateutils import parse_date
 from frappe.utils import cint, cstr, flt, getdate, get_datetime, formatdate
 from frappe.utils import get_site_name, get_site_path, get_site_base_path, get_path
-from DateTime import DateTime
+#from DateTime import DateTime
 
 import csv
 from frappe.utils.csvutils import read_csv_content
@@ -40,7 +40,7 @@ class ILStudentApplicantImport(Document):
 #					Prenom, Prenom2, NumSecu, NumIne
 					[],[],
 #					EtudiantLimayrac, Photo
-					["date_of_birth","d","yyyy-mm-dd"],["place_of_birth"]
+					["date_of_birth","d","yyyy-mm-dd"],["place_of_birth"],
 #					DateNaissance, LieuNaissance
 					["Ville de naissance",""],["Département de naissance",""],
 					["Pays de naissance",""],
@@ -59,13 +59,13 @@ class ILStudentApplicantImport(Document):
 #		wb = load_workbook(filename=file_path, read_only=True)
 #		ws = wb.active
 
-		header = content[0][0].split(";")
+#		header = content[0][0].split(";")
 		data = content[1:]
-		for i, row in data:
+		for rowCSV in data:
 
 			try:
 				error = False
-				rData = row[0].split(";")
+				rData = rowCSV[0].split(";")
 #				program_doc = frappe.get_doc("Program", "BTSESF1)
 				new_doc = frappe.new_doc("IL Student Applicant")
 				new_doc.program = "BTS Économie Sociale Familiale"
@@ -80,10 +80,11 @@ class ILStudentApplicantImport(Document):
 									setattr(new_doc, columCSV[j][0], columCSV[j][2][1])
 								elif columCSV[j][3][0] == value:
 									setattr(new_doc, columCSV[j][0], columCSV[j][3][1])
-							elif columName[j][1] == "d":
+							elif columCSV[j][1] == "d":
 #								setattr(new_doc, columName[j][0], formatdate(cell.value, columName[j][3]))
-								myDate = DateTime(value)
-								setattr(new_doc, columCSV[j][0], DateTime(value))
+#								myDate = DateTime(value)
+#								setattr(new_doc, columCSV[j][0], DateTime(value))
+								setattr(new_doc, columCSV[j][0], value)
 #								setattr(new_doc, columName[j][0], babel.dates.parse_date(cell.value, locale='fr_FR'))
 #								parse_date('01.04.2004', locale='de_DE')
 				new_doc.insert()
