@@ -22,27 +22,24 @@ class ILStudentApplicantImport(Document):
 		'''
 			Trigger on import button
 		'''
-		columName = [["Etablissement",""],["Filière",""],["Classement",""],
-					["Réponse",""],["Numéro",""],["Nom","last_name"],
-					["Prénom","first_name"],["Deuxième prénom","middle_name"],
-					["Civilité",""],["Sexe","gender","s",["M","Male"],["F","Female"]],
-					["Date de naissance","date_of_birth","d","dd/mm/yyyy"],
-					["Ville de naissance",""],["Département de naissance",""],
-					["Pays de naissance",""],
-					["Nationalité",""],["Adresse 1","address_line_1"],
-					["Adresse 2","address_line_2"],["Adresse 3",""],
-					["Code postal","pincode"],["Commune","city"],
-					["Pays",""],["Téléphone",""],["Téléphone portable",""]]
 
-		columCSV = [["applicantid"],["salutation", "e",["Monsieur","Mr"],["Madame","Mrs"]],["last_name"],[],
+		columCSV = [['applicantid'],['salutation', 'e',['Monsieur','Mr'],['Madame','Mrs']],['last_name'],['usage_name'],
 #					IdCandidat, Civilite, Nom, NomUsage
-					["first_name"],["middle_name"],[],[],
+					['first_name'],['middle_name'],['social_security_number'],['ine_number'],
 #					Prenom, Prenom2, NumSecu, NumIne
 					[],[],
 #					EtudiantLimayrac, Photo
-					["date_of_birth","d","yyyy-mm-dd"],["place_of_birth"],
+					['date_of_birth','d','yyyy-mm-dd'],['place_of_birth'],
 #					DateNaissance, LieuNaissance
-					["Ville de naissance",""],["Département de naissance",""],
+					['nationality'],['address_line_1'],
+#					Nationalite, Adresse
+					['address_line_2'],['pincode'],
+#					Adresse2, AdresseCp
+					['city'],['country'],
+#					AdresseVille, Pays
+#Pays;Tel;Tel2;Email;MotdePasse;DateCreationCompte;Session; Formation;RefCandidature;DateCandidature;EtatInscription;Scolarite_Annees1;Scolarite_Niveau1;Scolarite_Etablissement1;Scolarite_Ville1;Scolarite_Annees2;Scolarite_Niveau2;Scolarite_Etablissement2;Scolarite_Ville2;Scolarite_Annees3;Scolarite_Niveau3;Scolarite_Etablissement3;Scolarite_Ville3;Diplome_Annee1;Diplome_Libelle1;Diplome_Filiere1;Diplome_Annee2;Diplome_Libelle2;Diplome_Filiere2;Diplome_Annee3;Diplome_Libelle3;Diplome_Filiere3;Langue1;Langue2;Langue3;Langue4;ConditionPaiement;Iban;Bic;Banque;AdresseBanque;CpBanque;VilleBanque;QualiteRespFinancier;Autre_Lien;Nom;Prenom;Adresse;Cp;Ville;Pays;Tel;Tel2;TelTravail;Email;SituationFamiliale;SituationPro;Profession;Entreprise;AdresseEntreprise;CpEntreprise;VilleEntreprise;Contact_Pere_Nom;Contact_Pere_Prenom;Contact_Pere_Adresse;Contact_Pere_Adresse;Contact_Pere_Cp;Contact_Pere_Ville;Contact_Pere_Pays;Contact_Pere_Tel;Contact_Pere_Tel2;Contact_Pere_TelTravail;Contact_Pere_Email;Contact_Pere_SituationFamiliale;Contact_Pere_SituationPro;Contact_Pere_Entreprise;Contact_Pere_AdresseEntreprise;Contact_Pere_CpEntreprise;Contact_Pere_VilleEntreprise;Contact_Mere_Nom;Contact_Mere_Prenom;Contact_Mere_Adresse;Contact_Mere_Adresse;Contact_Mere_Cp;Contact_Mere_Ville;Contact_Mere_Pays;Contact_Mere_Tel;Contact_Mere_Tel2;Contact_Mere_TelTravail;Contact_Mere_Email;Contact_Mere_SituationFamiliale;Contact_Mere_SituationPro;Contact_Mere_Entreprise;Contact_Mere_AdresseEntreprise;Contact_Mere_CpEntreprise;Contact_Mere_VilleEntreprise;
+
+# 					["Ville de naissance",""],["Département de naissance",""],
 					["Pays de naissance",""],
 					["Nationalité",""],["Adresse 1","address_line_1"],
 					["Adresse 2","address_line_2"],["Adresse 3",""],
@@ -70,7 +67,7 @@ class ILStudentApplicantImport(Document):
 				new_doc = frappe.new_doc("IL Student Applicant")
 				new_doc.program = "BTS Économie Sociale Familiale"
 				for j, value in enumerate(rData):
-					if j < 12 and columCSV[j]:
+					if j < 18 and columCSV[j]:
 #						new_doc.last_name = cell.value
 						if len(columCSV[j]) <= 1:
 							setattr(new_doc, columCSV[j][0], value)
@@ -104,51 +101,3 @@ class ILStudentApplicantImport(Document):
 				frappe.db.rollback()
 			else:
 				frappe.db.commit()
-		'''
-
-		wb = load_workbook(filename=file_path, read_only=True)
-		ws = wb.active
-
- 		start = 2
-		for i, row in enumerate(ws.iter_rows(min_row=start)):
-
-			try:
-				error = False
-#				program_doc = frappe.get_doc("Program", "BTSESF1)
-				new_doc = frappe.new_doc("IL Student Applicant")
-				new_doc.program = "BTS Économie Sociale Familiale"
-				for j, cell in enumerate(row):
-					if j < 21 and columName[j][1] <> "":
-#						new_doc.last_name = cell.value
-						if len(columName[j]) <= 2:
-							setattr(new_doc, columName[j][1], cell.value)
-						else:
-							if columName[j][2] == "s":
-								if columName[j][2][0] == cell.value:
-									setattr(new_doc, columName[j][1], columName[j][2][1])
-								elif columName[j][3][0] == cell.value:
-									setattr(new_doc, columName[j][1], columName[j][3][1])
-							elif columName[j][2] == "d":
-#								setattr(new_doc, columName[j][1], formatdate(cell.value, columName[j][3]))
-								setattr(new_doc, columName[j][1], babel.dates.parse_date(cell.value, locale='fr_FR'))
-#								parse_date('01.04.2004', locale='de_DE')
-#					if j == 6:
-#						new_doc.first_name = cell.value
-				new_doc.insert()
-				new_doc.save()
-
-			except Exception, e:
-				error = True
-				if new_doc:
-					frappe.errprint(new_doc if isinstance(new_doc, dict) else new_doc.as_dict())
-				frappe.errprint(frappe.get_traceback())
-
-			finally:
-				frappe.local.message_log = []
-
-			if error:
-				frappe.db.rollback()
-			else:
-				frappe.db.commit()
-
-		'''
