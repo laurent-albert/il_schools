@@ -1,0 +1,5 @@
+DocType: IL Student Applicant,ApplicantId,Identifiant candidat
+DocType: IL Student Applicant,Salutation,Civilité
+DocType: IL Student Applicant,Last Name,Nom
+DocType: IL Student Applicant,Middle Name,Autres prénoms
+DocType: IL Student Applicant,Birth place,Lieu de naissance
